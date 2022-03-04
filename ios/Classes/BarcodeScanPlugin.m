@@ -7,9 +7,11 @@
 // https://forums.swift.org/t/swift-static-libraries-dont-copy-generated-objective-c-header/19816
 #import "barcode_scan2-Swift.h"
 #endif
+#import "FlutterBarcodeScannerViewFactory.h"
 
 @implementation BarcodeScanPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   [SwiftBarcodeScanPlugin registerWithRegistrar:registrar];
+  [FlutterBarcodeScannerViewFactory registerWithRegistrar:registrar];
 }
 @end

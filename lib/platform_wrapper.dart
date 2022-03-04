@@ -20,6 +20,10 @@ class BarcodeScanner {
   static const MethodChannel _channel =
       MethodChannel('de.mintware.barcode_scan');
 
+  /// The method channel
+  static const MethodChannel scannerViewChannel =
+      MethodChannel('com.flutter_to_barcode_scanner_view_channel');
+
   /// The event channel
   static const EventChannel _eventChannel =
       EventChannel('de.mintware.barcode_scan/events');
@@ -88,5 +92,23 @@ class BarcodeScanner {
   /// Use n-1 as the index of the camera which should be used.
   static Future<int> get numberOfCameras async {
     return (await _channel.invokeMethod<int>('numberOfCameras'))!;
+  }
+
+  static Future<void> stopScanning() async {
+    await scannerViewChannel.invokeMethod('stopScanning');
+  }
+
+  static Future<int> requestCameraPermission() async {
+    var permissionsRequested =
+        await scannerViewChannel.invokeMethod('requestCameraPermission');
+    return permissionsRequested;
+  }
+
+  static void resumeCamera() {
+    scannerViewChannel.invokeMethod('resumeCamera');
+  }
+
+  static void pauseCamera() {
+    scannerViewChannel.invokeMethod('pauseCamera');
   }
 }
