@@ -95,20 +95,20 @@ class BarcodeScanner {
   }
 
   static Future<void> stopScanning() async {
-    await scannerViewChannel.invokeMethod('stopScanning');
+    await scannerViewChannel.invokeMethod<void>('stopScanning');
   }
 
   static Future<int> requestCameraPermission() async {
-    var permissionsRequested =
-        await scannerViewChannel.invokeMethod('requestCameraPermission');
-    return permissionsRequested;
+    final permissionsRequested =
+        await scannerViewChannel.invokeMethod<int>('requestCameraPermission');
+    return permissionsRequested!;
   }
 
   static void resumeCamera() {
-    scannerViewChannel.invokeMethod('resumeCamera');
+    scannerViewChannel.invokeMethod<void>('resumeCamera');
   }
 
   static void pauseCamera() {
-    scannerViewChannel.invokeMethod('pauseCamera');
+    scannerViewChannel.invokeMethod<void>('pauseCamera');
   }
 }
