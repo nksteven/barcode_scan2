@@ -64,7 +64,7 @@ class ChannelHandler(private val activityHelper: ActivityHelper
         methodChannel = MethodChannel(messenger, "de.mintware.barcode_scan").apply {
             setMethodCallHandler(this@ChannelHandler)
         }
-
+        
         if (eventChannel != null) {
             stopListening()
         }

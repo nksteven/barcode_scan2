@@ -1,14 +1,12 @@
 package de.mintware.barcode_scan
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
+import android.hardware.camera2.CameraManager
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.Surface
-import android.view.WindowManager
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.Result
 import me.dm7.barcodescanner.zxing.ZXingScannerView
@@ -48,18 +46,6 @@ class BarcodeScannerActivity : Activity(), ZXingScannerView.ResultHandler {
     // region Activity lifecycle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //lock orientation
-        val rotation = (getSystemService(
-                Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
-        var orientation = when (rotation) {
-            Surface.ROTATION_0 -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            Surface.ROTATION_90 -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-            Surface.ROTATION_180 -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-            else -> ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-        }
-
-        requestedOrientation = orientation
 
         config = Protos.Configuration.parseFrom(intent.extras!!.getByteArray(EXTRA_CONFIG))
     }
@@ -135,8 +121,6 @@ class BarcodeScannerActivity : Activity(), ZXingScannerView.ResultHandler {
 
     override fun handleResult(result: Result?) {
         val intent = Intent()
-
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
         val builder = Protos.ScanResult.newBuilder()
         if (result == null) {
